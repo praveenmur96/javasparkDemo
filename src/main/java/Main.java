@@ -13,11 +13,11 @@ public class Main implements Serializable{
 
     public static void main(String[] args) throws Exception, StreamingQueryException {
 
-        //dataFrameDemo();
-        //machineLearningDemo();
+        dataFrameDemo();
+        machineLearningDemo();
         SparkRDDExample sparkRDDExample = new SparkRDDExample();
 
-     /*   PropertyConfigurator.configure("src/main/resources/log4j.properties");
+       PropertyConfigurator.configure("src/main/resources/log4j.properties");
         SparkSession spark = SparkSession.builder()
                 .appName("MySQLSparkApp")
                 .master("local[*]")
@@ -51,7 +51,7 @@ public class Main implements Serializable{
                 .start();
 
         query.awaitTermination();
-        */
+
     }
 
     public static void dataFrameDemo(){
