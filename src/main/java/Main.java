@@ -13,10 +13,11 @@ public class Main implements Serializable{
 
     public static void main(String[] args) throws Exception, StreamingQueryException {
 
-        dataFrameDemo();
-        machineLearningDemo();
+        //dataFrameDemo();
+        //machineLearningDemo();
+        SparkRDDExample sparkRDDExample = new SparkRDDExample();
 
-        PropertyConfigurator.configure("src/main/resources/log4j.properties");
+     /*   PropertyConfigurator.configure("src/main/resources/log4j.properties");
         SparkSession spark = SparkSession.builder()
                 .appName("MySQLSparkApp")
                 .master("local[*]")
@@ -50,6 +51,7 @@ public class Main implements Serializable{
                 .start();
 
         query.awaitTermination();
+        */
     }
 
     public static void dataFrameDemo(){
@@ -125,7 +127,7 @@ public class Main implements Serializable{
         Dataset<Row> trainingData = assembler.transform(indexedData)
                 .select("features", "salary"); // Assuming salary column exists
 
-        System.out.println("\n🚀 Training Data:");
+        System.out.println("\n Training Data:");
         trainingData.show(5, false);
 
         LinearRegression lr = new LinearRegression()
@@ -133,10 +135,10 @@ public class Main implements Serializable{
                 .setFeaturesCol("features");
         LinearRegressionModel model= lr.fit(trainingData);
 
-        System.out.println("\n🚀 Model Trained Successfully!");
+        System.out.println("\n Model Trained Successfully!");
 
         Dataset<Row> predictions = model.transform(trainingData);
-        System.out.println("\n🚀 Predictions:");
+        System.out.println("\n Predictions:");
         predictions.select("features", "salary", "prediction").show(5, false);
 
         spark.stop();
