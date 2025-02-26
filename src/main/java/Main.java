@@ -15,43 +15,8 @@ public class Main implements Serializable{
 
         dataFrameDemo();
         machineLearningDemo();
-        SparkRDDExample sparkRDDExample = new SparkRDDExample();
 
         PropertyConfigurator.configure("src/main/resources/log4j.properties");
-        SparkSession spark = SparkSession.builder()
-                .appName("MySQLSparkApp")
-                .master("local[*]")
-                .getOrCreate();
-
-        spark.sparkContext().setLogLevel("ERROR");
-        Dataset<Row> streamDF = spark.readStream()
-                .format("kafka")
-                .option("kafka.bootstrap.servers", "localhost:9092")
-                .option("subscribe", "customer_transactions")
-                .option("startingOffsets", "latest")
-                .load();
-
-        Dataset<Row> transactionDF = streamDF.selectExpr("CAST(value AS STRING)");
-
-        System.out.println("\n Streaming Data Schema:");
-        transactionDF.printSchema();
-
-
-        Properties connectionProperties = new Properties();
-        connectionProperties.put("user", "your_username");
-        connectionProperties.put("password", "your_password");
-        connectionProperties.put("driver", "com.mysql.cj.jdbc.Driver");
-
-        StreamingQuery query = transactionDF.writeStream()
-                .foreachBatch((batchDF, batchId) -> {
-                    batchDF.write()
-                            .mode(SaveMode.Append)
-                            .jdbc("jdbc:mysql://localhost:3306/your_database", "customer_transactions", connectionProperties);
-                })
-                .start();
-
-        query.awaitTermination();
-
     }
 
     public static void dataFrameDemo(){
@@ -104,7 +69,6 @@ public class Main implements Serializable{
         String url = "jdbc:mysql://localhost:3306/mydb";
         String user = "root";
         String password = "Pravkfin123";
-        String query = "SELECT code FROM abc";
 
         Properties connectionProperties = new Properties();
         connectionProperties.put("user", user);
